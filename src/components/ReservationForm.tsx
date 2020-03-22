@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Paper,
-  TextField,
   Grid,
   Button,
   InputBase,
@@ -16,10 +15,13 @@ import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import FlightLandIcon from "@material-ui/icons/FlightLand";
 import AirlineSeatLegroomExtraIcon from "@material-ui/icons/AirlineSeatLegroomExtra";
 import SwapHorizontalCircleIcon from "@material-ui/icons/SwapHorizontalCircle";
+import SwapVerticalCircleIcon from "@material-ui/icons/SwapVerticalCircle";
 
 import { useFormik } from "formik";
 import NumberSpinner from "./NumberSpinner";
 import Colors from "../constants/colors";
+import { useHistory } from "react-router-dom";
+import QueryString from "query-string";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,16 +46,75 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ReservationForm: React.FC<any> = () => {
   const classes = useStyles();
-  const { values, setFieldValue } = useFormik({
+  const history = useHistory();
+  const { values, setFieldValue, handleSubmit, setValues } = useFormik({
     initialValues: {
       source: "",
       destination: "",
       seats: 1
     },
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+      const { destination, source, seats } = values;
+      localStorage.setItem("lastSearch", JSON.stringify(values));
+      const query = QueryString.stringify({ destination, source, seats });
+      history.push({ pathname: "search", search: query });
     }
   });
+
+  useEffect(() => {
+    const lastSearch = localStorage.getItem("lastSearch");
+    if (lastSearch && lastSearch.trim().length > 0) {
+      setValues(JSON.parse(lastSearch));
+    }
+  }, [setValues]);
+
+  const swapSourceAndDestination = () => {
+    const destintation = values.destination;
+    setFieldValue("destination", values.source);
+    setFieldValue("source", destintation);
+  };
+
+  const SourceAutocomplete = (
+    <Autocomplete
+      id="source"
+      options={SOURCE}
+      getOptionLabel={option => option}
+      style={{ display: "inline-block" }}
+      renderInput={params => (
+        <InputBase
+          ref={params.InputProps.ref}
+          inputProps={params.inputProps}
+          autoFocus
+          placeholder="Source"
+        />
+      )}
+      onChange={(_: any, value: any) => {
+        setFieldValue("source", value);
+      }}
+      value={values.source}
+    />
+  );
+
+  const DestinationAutoComplete = (
+    <Autocomplete
+      id="destination"
+      options={DESTINATION}
+      getOptionLabel={option => option}
+      style={{ display: "inline-block" }}
+      renderInput={params => (
+        <InputBase
+          ref={params.InputProps.ref}
+          inputProps={params.inputProps}
+          autoFocus
+          placeholder="Destination"
+        />
+      )}
+      onChange={(_: any, value: any) => {
+        setFieldValue("destination", value);
+      }}
+      value={values.destination}
+    />
+  );
 
   return (
     <Paper className={classes.root}>
@@ -70,32 +131,11 @@ const ReservationForm: React.FC<any> = () => {
               <IconButton aria-label="FlightTakeoffIcon">
                 <FlightTakeoffIcon style={{ color: Colors.Primary[900] }} />
               </IconButton>
-              <Autocomplete
-                id="source"
-                options={SOURCE}
-                getOptionLabel={option => option}
-                style={{ display: "inline-block" }}
-                renderInput={params => (
-                  <InputBase
-                    ref={params.InputProps.ref}
-                    inputProps={params.inputProps}
-                    autoFocus
-                    placeholder="Source"
-                  />
-                )}
-                onChange={(_: any, value: any) => {
-                  setFieldValue("source", value);
-                }}
-                value={values.source}
-              />
+              {SourceAutocomplete}
               <Divider className={classes.divider} orientation="vertical" />
               <IconButton
                 aria-label="FlightLandIcon"
-                onClick={() => {
-                  const destintation = values.destination;
-                  setFieldValue("destination", values.source);
-                  setFieldValue("source", destintation);
-                }}
+                onClick={swapSourceAndDestination}
               >
                 <SwapHorizontalCircleIcon
                   style={{ color: Colors.Primary[900] }}
@@ -105,25 +145,7 @@ const ReservationForm: React.FC<any> = () => {
               <IconButton aria-label="FlightLandIcon">
                 <FlightLandIcon style={{ color: Colors.Primary[900] }} />
               </IconButton>
-
-              <Autocomplete
-                id="destination"
-                options={DESTINATION}
-                getOptionLabel={option => option}
-                style={{ display: "inline-block" }}
-                renderInput={params => (
-                  <InputBase
-                    ref={params.InputProps.ref}
-                    inputProps={params.inputProps}
-                    autoFocus
-                    placeholder="Destination"
-                  />
-                )}
-                onChange={(_: any, value: any) => {
-                  setFieldValue("destination", value);
-                }}
-                value={values.destination}
-              />
+              {DestinationAutoComplete}
               <Divider className={classes.divider} orientation="vertical" />
               <IconButton aria-label="AirlineSeatLegroomExtraIcon">
                 <AirlineSeatLegroomExtraIcon
@@ -150,6 +172,9 @@ const ReservationForm: React.FC<any> = () => {
                     color: "white"
                   }}
                   size="medium"
+                  onClick={() => {
+                    handleSubmit();
+                  }}
                 >
                   Search
                 </Button>
@@ -162,47 +187,25 @@ const ReservationForm: React.FC<any> = () => {
             <IconButton aria-label="FlightTakeoffIcon">
               <FlightTakeoffIcon style={{ color: Colors.Primary[900] }} />
             </IconButton>
-            <Autocomplete
-              id="source"
-              options={SOURCE}
-              getOptionLabel={option => option}
-              style={{ display: "inline-block" }}
-              renderInput={params => (
-                <InputBase
-                  ref={params.InputProps.ref}
-                  inputProps={params.inputProps}
-                  autoFocus
-                  placeholder="Source"
-                />
-              )}
-              onChange={(_: any, value: any) => {
-                setFieldValue("source", value);
-              }}
-              value={values.source}
-            />
+            {SourceAutocomplete}
           </Paper>
-          <Paper component="form" style={{ marginTop: 15 }}>
+          <div style={{ height: 20 }}>
+            <IconButton
+              style={{ top: -17 }}
+              aria-label="FlightLandIcon"
+              onClick={swapSourceAndDestination}
+            >
+              <SwapVerticalCircleIcon
+                style={{ color: "white", fontSize: 30 }}
+              />
+            </IconButton>
+          </div>
+
+          <Paper component="form" style={{ marginTop: 0 }}>
             <IconButton aria-label="FlightLandIcon">
               <FlightLandIcon style={{ color: Colors.Primary[900] }} />
             </IconButton>
-            <Autocomplete
-              id="destination"
-              options={DESTINATION}
-              getOptionLabel={option => option}
-              style={{ display: "inline-block" }}
-              renderInput={params => (
-                <InputBase
-                  ref={params.InputProps.ref}
-                  inputProps={params.inputProps}
-                  autoFocus
-                  placeholder="Destination"
-                />
-              )}
-              onChange={(_: any, value: any) => {
-                setFieldValue("destination", value);
-              }}
-              value={values.destination}
-            />
+            {DestinationAutoComplete}
           </Paper>
           <Paper component="form" style={{ marginTop: 15, alignSelf: "left" }}>
             <IconButton aria-label="FlightLandIcon">
@@ -228,6 +231,7 @@ const ReservationForm: React.FC<any> = () => {
                 color: Colors.Primary[900]
               }}
               size="medium"
+              onClick={() => handleSubmit()}
             >
               Search
             </Button>
