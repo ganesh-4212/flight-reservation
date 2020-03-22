@@ -1,31 +1,32 @@
-import React from "react";
-import { useLocation, useHistory } from "react-router-dom";
-import { parse } from "query-string";
+import React, { useState } from "react";
 import {
   makeStyles,
   IconButton,
   Grid,
   Typography,
-  Paper,
-  Hidden
+  Hidden,
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  List,
+  ListItem,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
+  ListItemSecondaryAction,
+  Checkbox,
+  Slider,
+  Divider
 } from "@material-ui/core";
 import Colors from "../constants/colors";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
-import FlightLandIcon from "@material-ui/icons/FlightLand";
-import FaceIcon from "@material-ui/icons/Face";
-import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
+import SearchResultHeader from "../components/SearchResultHeader";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import SearchFilterXS from "../components/SearchFilterXS";
+import SearchResultSort from "../components/SearchResultSort";
+import SearchFilter from "../components/SearchFilter";
+
 const useStyles = makeStyles(theme => ({
-  header: {
-    backgroundColor: Colors.Primary[800],
-    width: "100%",
-    position: "fixed",
-    top: 0,
-    height: 100
-  },
-  headerContainer: {
-    marginTop: 15
-  },
   content: {
     position: "relative",
     top: -20,
@@ -40,200 +41,136 @@ const useStyles = makeStyles(theme => ({
       height: window.innerHeight - 80
     },
     backgroundColor: "white"
+  },
+  textStyle: {
+    marginLeft: 20,
+    marginTop: 10,
+    height: 50,
+    verticalAlign: "middle",
+    lineHeight: "50px"
+  },
+  button: {
+    margin: theme.spacing(1)
+  },
+  searchResultContainer: {
+    backgroundColor: "rgba(0,0,0,.12)",
+    overflowY: "scroll",
+    "&::-webkit-scrollbar": {
+      display: "none"
+    },
+    [theme.breakpoints.up("xs")]: {
+      height: window.innerHeight - 130
+    },
+    [theme.breakpoints.up("md")]: {
+      height: window.innerHeight - 180
+    }
   }
 }));
 
+const SearchResultCard = () => {
+  return (
+    <Card variant="outlined" style={{ margin: 5 }}>
+      <CardContent>
+        <Typography color="textSecondary" gutterBottom>
+          Word of the Day
+        </Typography>
+        <Typography color="textSecondary">adjective</Typography>
+      </CardContent>
+    </Card>
+  );
+};
+
 const SearchResultPage = () => {
   const classes = useStyles();
-  const history = useHistory();
-  const { search } = useLocation();
-  const { source, destination, seats } = parse(search);
+  const [openFilter, setOpenFilter] = useState(false);
 
   return (
     <div>
-      <div className={classes.header}>
-        <Grid container className={classes.headerContainer}>
-          <Grid md={1} xs={1} item>
-            <IconButton
-              aria-label="ArrowBackIcon"
-              onClick={() => history.replace("/")}
-            >
-              <ArrowBackIcon style={{ color: "white" }} />
-            </IconButton>
+      <SearchResultHeader />
+      <div className={classes.content}>
+        <div
+          style={{
+            position: "absolute",
+            width: "100%"
+          }}
+        >
+          <Grid
+            container
+            style={{
+              height: 50,
+              borderBottomWidth: 2,
+              borderBottomColor: "rgba(0,0,0,.12)",
+              borderBottomStyle: "solid"
+            }}
+          >
+            <Grid item xs={10} md={8}>
+              <Typography
+                component="span"
+                variant="body1"
+                color="textSecondary"
+                className={classes.textStyle}
+              >
+                24 Available Flights
+              </Typography>
+            </Grid>
+            <Hidden smDown>
+              <Grid
+                item
+                md={4}
+                style={{
+                  height: 50,
+
+                  borderLeftWidth: 2,
+                  borderLeftColor: "rgba(0,0,0,.12)",
+                  borderLeftStyle: "solid"
+                }}
+              >
+                <Typography
+                  component="span"
+                  variant="body1"
+                  color="textSecondary"
+                  className={classes.textStyle}
+                >
+                  Filters
+                </Typography>
+              </Grid>
+            </Hidden>
+            <Hidden mdUp>
+              <Grid item xs={2}>
+                <IconButton onClick={() => setOpenFilter(true)}>
+                  <FilterListIcon style={{ color: Colors.Primary[900] }} />
+                </IconButton>
+              </Grid>
+            </Hidden>
           </Grid>
-          <Hidden smDown>
-            <Grid md={11} item container>
-              <Grid
-                item
-                md={3}
-                spacing={2}
-                style={{
-                  backgroundColor: Colors.Primary[700],
-                  height: 50,
-                  marginRight: 20
-                }}
-              >
-                <FlightTakeoffIcon
-                  style={{
-                    lineHeight: "100%",
-                    verticalAlign: "middle",
-                    height: "100%",
-                    color: "white",
-                    marginLeft: 15
-                  }}
-                />
-                <Typography
-                  component="span"
-                  variant="h6"
-                  color="inherit"
-                  style={{
-                    lineHeight: "100%",
-                    verticalAlign: "middle",
-                    height: "100%",
-                    color: "white",
-                    marginLeft: 15
-                  }}
-                >
-                  {source}
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                md={3}
-                spacing={5}
-                style={{
-                  backgroundColor: Colors.Primary[700],
-                  height: 50,
-                  marginRight: 20
-                }}
-              >
-                <FlightLandIcon
-                  style={{
-                    lineHeight: "100%",
-                    verticalAlign: "middle",
-                    height: "100%",
-                    color: "white",
-                    marginLeft: 15
-                  }}
-                />
-                <Typography
-                  component="span"
-                  variant="h6"
-                  color="inherit"
-                  style={{
-                    lineHeight: "100%",
-                    verticalAlign: "middle",
-                    height: "100%",
-                    color: "white",
-                    marginLeft: 15
-                  }}
-                >
-                  {destination}
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                md={3}
-                spacing={2}
-                style={{
-                  backgroundColor: Colors.Primary[700],
-                  height: 50,
-                  marginRight: 20
-                }}
-              >
-                <FaceIcon
-                  style={{
-                    lineHeight: "100%",
-                    verticalAlign: "middle",
-                    height: "100%",
-                    color: "white",
-                    marginLeft: 15
-                  }}
-                />
-                <Typography
-                  component="span"
-                  variant="h6"
-                  color="inherit"
-                  style={{
-                    lineHeight: "100%",
-                    verticalAlign: "middle",
-                    height: "100%",
-                    color: "white",
-                    marginLeft: 15
-                  }}
-                >
-                  {seats} Seats
-                </Typography>
+
+          <Grid container>
+            <Grid md={8} xs={12}>
+              <Hidden smDown>
+                <SearchResultSort />
+              </Hidden>
+              <Grid md={12} xs={12} className={classes.searchResultContainer}>
+                <SearchResultCard />
+                <SearchResultCard />
+                <SearchResultCard />
+                <SearchResultCard />
+                <SearchResultCard />
+                <SearchResultCard />
+                <SearchResultCard />
+                <SearchResultCard />
+                <SearchResultCard />
               </Grid>
             </Grid>
-          </Hidden>
-          <Hidden mdUp>
-            <Grid item xs={11}>
-              <Typography
-                component="span"
-                variant="h6"
-                color="inherit"
-                style={{
-                  lineHeight: "100%",
-                  verticalAlign: "middle",
-                  height: "100%",
-                  color: "white",
-                  marginLeft: 15
-                }}
-              >
-                {source}
-              </Typography>
-              <ArrowRightAltIcon
-                style={{
-                  lineHeight: "100%",
-                  verticalAlign: "middle",
-                  height: "100%",
-                  color: "white",
-                  marginLeft: 15
-                }}
-              />
-              <Typography
-                component="span"
-                variant="h6"
-                color="inherit"
-                style={{
-                  lineHeight: "100%",
-                  verticalAlign: "middle",
-                  height: "100%",
-                  color: "white",
-                  marginLeft: 15
-                }}
-              >
-                {destination}
-              </Typography>
-              <FaceIcon
-                style={{
-                  lineHeight: "100%",
-                  verticalAlign: "middle",
-                  height: "100%",
-                  color: "white",
-                  marginLeft: 15
-                }}
-              />
-              <Typography
-                component="span"
-                variant="h6"
-                color="inherit"
-                style={{
-                  lineHeight: "100%",
-                  verticalAlign: "middle",
-                  height: "100%",
-                  color: "white",
-                  marginLeft: 15
-                }}
-              >
-                {seats}
-              </Typography>
-            </Grid>
-          </Hidden>
-        </Grid>
+
+            <Hidden smDown>
+              <Grid md={4}>
+                <SearchFilter />
+              </Grid>
+            </Hidden>
+          </Grid>
+        </div>
       </div>
-      <div className={classes.content}></div>
+      <SearchFilterXS onClose={() => setOpenFilter(false)} open={openFilter} />
     </div>
   );
 };
