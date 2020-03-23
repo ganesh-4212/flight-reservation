@@ -25,6 +25,9 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import SearchFilterXS from "../components/SearchFilterXS";
 import SearchResultSort from "../components/SearchResultSort";
 import SearchFilter from "../components/SearchFilter";
+import data from "../constants/data";
+import { AIRLINES } from "../constants/app.constants";
+import SearchResultCard from "../components/SearchResultCard";
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -66,19 +69,6 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }));
-
-const SearchResultCard = () => {
-  return (
-    <Card variant="outlined" style={{ margin: 5 }}>
-      <CardContent>
-        <Typography color="textSecondary" gutterBottom>
-          Word of the Day
-        </Typography>
-        <Typography color="textSecondary">adjective</Typography>
-      </CardContent>
-    </Card>
-  );
-};
 
 const SearchResultPage = () => {
   const classes = useStyles();
@@ -150,15 +140,9 @@ const SearchResultPage = () => {
                 <SearchResultSort />
               </Hidden>
               <Grid md={12} xs={12} className={classes.searchResultContainer}>
-                <SearchResultCard />
-                <SearchResultCard />
-                <SearchResultCard />
-                <SearchResultCard />
-                <SearchResultCard />
-                <SearchResultCard />
-                <SearchResultCard />
-                <SearchResultCard />
-                <SearchResultCard />
+                {data.map(result => (
+                  <SearchResultCard details={result} />
+                ))}
               </Grid>
             </Grid>
 

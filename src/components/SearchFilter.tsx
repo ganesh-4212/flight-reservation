@@ -22,10 +22,12 @@ import { AIRLINES } from "../constants/app.constants";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: window.innerHeight - 130,
     overflowY: "scroll",
     "&::-webkit-scrollbar": {
       display: "none"
+    },
+    [theme.breakpoints.up("md")]: {
+      height: window.innerHeight - 130
     }
   },
   textStyle: {
@@ -48,7 +50,9 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
-    marginLeft: 20
+    [theme.breakpoints.up("md")]: {
+      marginLeft: 20
+    }
   }
 }));
 

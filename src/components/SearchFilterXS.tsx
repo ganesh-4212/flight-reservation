@@ -5,11 +5,6 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  Button,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
   makeStyles,
   DialogContent
 } from "@material-ui/core";
@@ -56,7 +51,7 @@ const SearchFilterXS: React.FC<SearchFilterXSProps> = ({ open, onClose }) => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <DialogContent dividers>
+      <DialogContent style={{ padding: 0 }}>
         <SearchFilter />
       </DialogContent>
     </Dialog>
