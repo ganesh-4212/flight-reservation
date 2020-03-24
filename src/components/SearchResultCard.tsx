@@ -13,8 +13,6 @@ import {
 import FlightIcon from "@material-ui/icons/Flight";
 import Colors from "../constants/colors";
 import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
-//@ts-ignore
-import durationParse from "parse-duration";
 
 const useStyles = makeStyles(theme => ({
   airlineAvatar: {

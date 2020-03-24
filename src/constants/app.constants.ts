@@ -15,3 +15,17 @@ export const AIRLINES = [
     logo: "air_india.png"
   }
 ];
+
+export const SORT_BY = {
+  PRICE: "price",
+  DURATION: "duration",
+  ARRIVAL: "arrival",
+  DEPARTURE: "departure",
+  SEATS: "seats",
+  AIRLINE: "airline"
+};
+
+export const ORDER_BY = {
+  ASC: "ASC",
+  DESC: "DESC"
+};

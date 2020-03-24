@@ -2,8 +2,9 @@ import data from "../constants/data";
 import moment from "moment";
 //@ts-ignore
 import parseDuration from "parse-duration";
+import { SORT_BY, ORDER_BY } from "../constants/app.constants";
 export function filterData(filter: Filters) {
-  return data.filter(item => {
+  const filteredData = data.filter(item => {
     const {
       airlines,
       priceMax,
@@ -77,6 +78,35 @@ export function filterData(filter: Filters) {
       arrivalFilter
     );
   });
+  const { sortBy, orderBy } = filter;
+  if (sortBy && orderBy) {
+    const orderByVal = orderBy === ORDER_BY.DESC ? -1 : 1;
+    return filteredData.sort((a, b) => {
+      if (sortBy === SORT_BY.PRICE) {
+        return (a.price - b.price) * orderByVal;
+      } else if (sortBy === SORT_BY.AIRLINE) {
+        return a.airline.localeCompare(b.airline) * orderByVal;
+      } else if (sortBy === SORT_BY.SEATS) {
+        return (a.availableSeats - b.availableSeats) * orderByVal;
+      } else if (sortBy === SORT_BY.DURATION) {
+        return (
+          (parseDuration(a.duration) - parseDuration(b.duration)) * orderByVal
+        );
+      } else if (sortBy === SORT_BY.ARRIVAL) {
+        return (
+          moment(a.arrival, "h:mm A").diff(moment(b.arrival, "h:mm A")) *
+          orderByVal
+        );
+      } else if (sortBy === SORT_BY.DEPARTURE) {
+        return (
+          moment(a.departure, "h:mm A").diff(moment(b.departure, "h:mm A")) *
+          orderByVal
+        );
+      }
+      return 0;
+    });
+  }
+  return filteredData;
 }
 export const delayPromise = (time: number, result: any) =>
   new Promise(resolve => setTimeout(() => resolve(result), time));

@@ -5,7 +5,6 @@ import {
   Grid,
   Typography,
   Hidden,
-  CircularProgress,
   LinearProgress
 } from "@material-ui/core";
 import Colors from "../constants/colors";
@@ -15,9 +14,6 @@ import SearchFilterXS from "../components/SearchFilterXS";
 import SearchResultSort from "../components/SearchResultSort";
 import SearchFilter from "../components/SearchFilter";
 import SearchResultCard from "../components/SearchResultCard";
-import { useLocation } from "react-router-dom";
-import queyString from "query-string";
-import { filterData } from "../utils/helpers";
 import { useSelector } from "react-redux";
 import SortIcon from "@material-ui/icons/Sort";
 import SortDialogXS from "../components/SortDialogXS";

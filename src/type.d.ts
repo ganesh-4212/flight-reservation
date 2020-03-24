@@ -26,6 +26,8 @@ interface Filters {
   departureMax: string;
   arrivalMax: string;
   arrivalMin: string;
+  sortBy: string;
+  orderBy: string;
 }
 
 interface Action {
