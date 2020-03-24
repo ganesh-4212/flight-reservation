@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Paper, Typography, makeStyles } from "@material-ui/core";
+import { Paper, Typography, makeStyles, Hidden } from "@material-ui/core";
 
 import SortButton from "./SortButton";
 
@@ -20,22 +20,34 @@ const useStyles = makeStyles(theme => ({
 const SearchResultSort = () => {
   const classes = useStyles();
   return (
-    <Paper style={{ height: 50 }}>
-      <Typography
-        component="span"
-        variant="body1"
-        color="textSecondary"
-        className={classes.textStyle}
-      >
-        Sort By
-      </Typography>
-      <SortButton text="Price" sortKey="price" />
-      <SortButton text="Duration" sortKey="duration" />
-      <SortButton text="Arrival" sortKey="arrival" />
-      <SortButton text="Departure" sortKey="departure" />
-      <SortButton text="Seats" sortKey="seats" />
-      <SortButton text="Airline" sortKey="airline" />
-    </Paper>
+    <>
+      <Hidden smDown>
+        <Paper style={{ height: 50 }}>
+          <Typography
+            component="span"
+            variant="body1"
+            color="textSecondary"
+            className={classes.textStyle}
+          >
+            Sort By
+          </Typography>
+          <SortButton text="Price" sortKey="price" />
+          <SortButton text="Duration" sortKey="duration" />
+          <SortButton text="Arrival" sortKey="arrival" />
+          <SortButton text="Departure" sortKey="departure" />
+          <SortButton text="Seats" sortKey="seats" />
+          <SortButton text="Airline" sortKey="airline" />
+        </Paper>
+      </Hidden>
+      <Hidden mdUp>
+        <SortButton text="Price" sortKey="price" />
+        <SortButton text="Duration" sortKey="duration" />
+        <SortButton text="Arrival" sortKey="arrival" />
+        <SortButton text="Departure" sortKey="departure" />
+        <SortButton text="Seats" sortKey="seats" />
+        <SortButton text="Airline" sortKey="airline" />
+      </Hidden>
+    </>
   );
 };
 export default SearchResultSort;

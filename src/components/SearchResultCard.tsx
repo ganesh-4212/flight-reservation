@@ -13,6 +13,9 @@ import {
 import FlightIcon from "@material-ui/icons/Flight";
 import Colors from "../constants/colors";
 import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
+//@ts-ignore
+import durationParse from "parse-duration";
+
 const useStyles = makeStyles(theme => ({
   airlineAvatar: {
     display: "inline-block",
@@ -125,7 +128,25 @@ const SearchResultCard: React.FC<SearchResultCardProps> = ({ details }) => {
               {details.arrival}
             </Typography>
           </Grid>
-          <Grid item md={3} xs={6}>
+          <Grid
+            item
+            md={1}
+            xs={3}
+            style={{ marginTop: "auto", marginBottom: "auto" }}
+          >
+            <Typography
+              component="span"
+              variant="subtitle2"
+              color="textSecondary"
+              className={classes.fromTo}
+              style={{
+                display: "inline-block"
+              }}
+            >
+              {details.duration}
+            </Typography>
+          </Grid>
+          <Grid item md={2} xs={3}>
             <Typography
               component="span"
               variant="h6"

@@ -5,19 +5,8 @@ import {
   Grid,
   Typography,
   Hidden,
-  Card,
-  CardContent,
-  CardActions,
-  Button,
-  List,
-  ListItem,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
-  ListItemSecondaryAction,
-  Checkbox,
-  Slider,
-  Divider
+  CircularProgress,
+  LinearProgress
 } from "@material-ui/core";
 import Colors from "../constants/colors";
 import SearchResultHeader from "../components/SearchResultHeader";
@@ -25,9 +14,13 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import SearchFilterXS from "../components/SearchFilterXS";
 import SearchResultSort from "../components/SearchResultSort";
 import SearchFilter from "../components/SearchFilter";
-import data from "../constants/data";
-import { AIRLINES } from "../constants/app.constants";
 import SearchResultCard from "../components/SearchResultCard";
+import { useLocation } from "react-router-dom";
+import queyString from "query-string";
+import { filterData } from "../utils/helpers";
+import { useSelector } from "react-redux";
+import SortIcon from "@material-ui/icons/Sort";
+import SortDialogXS from "../components/SortDialogXS";
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -73,6 +66,20 @@ const useStyles = makeStyles(theme => ({
 const SearchResultPage = () => {
   const classes = useStyles();
   const [openFilter, setOpenFilter] = useState(false);
+  const [openSort, setOpenSort] = useState(false);
+  const { flights, loading } = useSelector<StoreState, FlightSearchState>(
+    store => store.flightSearch
+  );
+
+  let flightAvailableText = "";
+  if (loading) {
+    flightAvailableText = "Searching Available Flights";
+  } else {
+    flightAvailableText =
+      flights.length > 0
+        ? `${flights.length} Available Flights`
+        : "No Flights Available";
+  }
 
   return (
     <div>
@@ -93,14 +100,21 @@ const SearchResultPage = () => {
               borderBottomStyle: "solid"
             }}
           >
-            <Grid item xs={10} md={8}>
+            <Hidden mdUp>
+              <Grid item xs={2}>
+                <IconButton onClick={() => setOpenSort(true)}>
+                  <SortIcon style={{ color: Colors.Primary[900] }} />
+                </IconButton>
+              </Grid>
+            </Hidden>
+            <Grid item xs={8} md={8}>
               <Typography
                 component="span"
                 variant="body1"
                 color="textSecondary"
                 className={classes.textStyle}
               >
-                24 Available Flights
+                {flightAvailableText}
               </Typography>
             </Grid>
             <Hidden smDown>
@@ -135,19 +149,28 @@ const SearchResultPage = () => {
           </Grid>
 
           <Grid container>
-            <Grid md={8} xs={12}>
+            <Grid md={8} xs={12} item>
               <Hidden smDown>
                 <SearchResultSort />
               </Hidden>
-              <Grid md={12} xs={12} className={classes.searchResultContainer}>
-                {data.map(result => (
-                  <SearchResultCard details={result} />
-                ))}
+              <Grid
+                md={12}
+                xs={12}
+                className={classes.searchResultContainer}
+                item
+              >
+                {loading ? (
+                  <LinearProgress variant="query" />
+                ) : (
+                  flights.map((result, index) => (
+                    <SearchResultCard details={result} key={index} />
+                  ))
+                )}
               </Grid>
             </Grid>
 
             <Hidden smDown>
-              <Grid md={4}>
+              <Grid md={4} item>
                 <SearchFilter />
               </Grid>
             </Hidden>
@@ -155,6 +178,7 @@ const SearchResultPage = () => {
         </div>
       </div>
       <SearchFilterXS onClose={() => setOpenFilter(false)} open={openFilter} />
+      <SortDialogXS onClose={() => setOpenSort(false)} open={openSort} />
     </div>
   );
 };

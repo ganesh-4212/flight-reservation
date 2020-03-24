@@ -57,7 +57,6 @@ const SearchResultHeader = () => {
             <Grid
               item
               md={3}
-              spacing={2}
               style={{
                 backgroundColor: Colors.Primary[700],
                 height: 50,
@@ -77,7 +76,6 @@ const SearchResultHeader = () => {
             <Grid
               item
               md={3}
-              spacing={5}
               style={{
                 backgroundColor: Colors.Primary[700],
                 height: 50,
@@ -97,7 +95,6 @@ const SearchResultHeader = () => {
             <Grid
               item
               md={3}
-              spacing={2}
               style={{
                 backgroundColor: Colors.Primary[700],
                 height: 50,
