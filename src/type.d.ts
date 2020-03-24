@@ -20,6 +20,12 @@ interface Filters {
   airlines: string | string[];
   priceMin: string;
   priceMax: string;
+  durationMin: string;
+  durationMax: string;
+  departureMin: string;
+  departureMax: string;
+  arrivalMax: string;
+  arrivalMin: string;
 }
 
 interface Action {
