@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/flight-reservation/static/css/main.84489d70.chunk.css",
+    "main.js": "/flight-reservation/static/js/main.722d17e7.chunk.js",
+    "main.js.map": "/flight-reservation/static/js/main.722d17e7.chunk.js.map",
+    "runtime-main.js": "/flight-reservation/static/js/runtime-main.2a820ad6.js",
+    "runtime-main.js.map": "/flight-reservation/static/js/runtime-main.2a820ad6.js.map",
+    "static/js/2.4084e188.chunk.js": "/flight-reservation/static/js/2.4084e188.chunk.js",
+    "static/js/2.4084e188.chunk.js.map": "/flight-reservation/static/js/2.4084e188.chunk.js.map",
+    "index.html": "/flight-reservation/index.html",
+    "precache-manifest.0ce7eeb6b4024aa18df50713a325fa58.js": "/flight-reservation/precache-manifest.0ce7eeb6b4024aa18df50713a325fa58.js",
+    "service-worker.js": "/flight-reservation/service-worker.js",
+    "static/css/main.84489d70.chunk.css.map": "/flight-reservation/static/css/main.84489d70.chunk.css.map",
+    "static/js/2.4084e188.chunk.js.LICENSE.txt": "/flight-reservation/static/js/2.4084e188.chunk.js.LICENSE.txt",
+    "static/media/air_india.png": "/flight-reservation/static/media/air_india.2ca4eaa2.png",
+    "static/media/bangalore_airport.jpg": "/flight-reservation/static/media/bangalore_airport.9e1271b9.jpg",
+    "static/media/chennai_airport.jpeg": "/flight-reservation/static/media/chennai_airport.08ed94ea.jpeg",
+    "static/media/delhi_airport.jpg": "/flight-reservation/static/media/delhi_airport.e0d0cde8.jpg",
+    "static/media/kolkata_airport.jpg": "/flight-reservation/static/media/kolkata_airport.045b7045.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2a820ad6.js",
+    "static/js/2.4084e188.chunk.js",
+    "static/css/main.84489d70.chunk.css",
+    "static/js/main.722d17e7.chunk.js"
+  ]
+}
