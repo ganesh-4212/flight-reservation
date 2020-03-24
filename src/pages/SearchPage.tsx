@@ -106,7 +106,11 @@ const SearchPage = () => {
               sm={6}
               className={classes.nearByPlacesGridItem}
             >
-              <NearByPlaces />
+              <NearByPlaces
+                title="Bangalore Airport"
+                image="bangalore_airport.jpg"
+                description="Bangalore Airport, officially known Kempegowda International Airport (IATA: BLR, ICAO: VOBL), is an International airport serving Bangalore, Bengaluru in Hindi, the seat city of Karnataka state in India. Bangalore Airport is located in Devanahalli, 40 km (25 miles) north of Bangalore city centre"
+              />
             </Grid>
             <Grid
               item
@@ -115,7 +119,11 @@ const SearchPage = () => {
               sm={6}
               className={classes.nearByPlacesGridItem}
             >
-              <NearByPlaces />
+              <NearByPlaces
+                title="Chennai Airport"
+                image="chennai_airport.jpeg"
+                description="Chennai International Airport is an international airport serving the city of Chennai, Tamil Nadu, India, and its metropolitan area. It is located in Meenambakkam and Tirusulam, 21 km from the city centre"
+              />
             </Grid>
             <Grid
               item
@@ -124,7 +132,11 @@ const SearchPage = () => {
               sm={6}
               className={classes.nearByPlacesGridItem}
             >
-              <NearByPlaces />
+              <NearByPlaces
+                title="Delhi Airport"
+                image="delhi_airport.jpg"
+                description="Indira Gandhi International Airport serves as the major international aviation hub of the Indian capital city of New Delhi as well as India. The airport, spread over an area of 5,106 acres, is situated in Palam, 15 km south-west of the New Delhi railway station and 16 km from New Delhi city centre"
+              />
             </Grid>
             <Grid
               item
@@ -133,43 +145,11 @@ const SearchPage = () => {
               sm={6}
               className={classes.nearByPlacesGridItem}
             >
-              <NearByPlaces />
-            </Grid>
-            <Grid
-              item
-              md={3}
-              xs={12}
-              sm={6}
-              className={classes.nearByPlacesGridItem}
-            >
-              <NearByPlaces />
-            </Grid>
-            <Grid
-              item
-              md={3}
-              xs={12}
-              sm={6}
-              className={classes.nearByPlacesGridItem}
-            >
-              <NearByPlaces />
-            </Grid>
-            <Grid
-              item
-              md={3}
-              xs={12}
-              sm={6}
-              className={classes.nearByPlacesGridItem}
-            >
-              <NearByPlaces />
-            </Grid>
-            <Grid
-              item
-              md={3}
-              xs={12}
-              sm={6}
-              className={classes.nearByPlacesGridItem}
-            >
-              <NearByPlaces />
+              <NearByPlaces
+                title="Kolkata Airport"
+                image="kolkata_airport.jpg"
+                description="Netaji Subhas Chandra Bose International Airport is an international airport located in Dum Dum, West Bengal, India, serving the Kolkata metropolitan area. It is located approximately 17 kilometres from the city centre."
+              />
             </Grid>
           </Grid>
         </div>

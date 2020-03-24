@@ -6,11 +6,12 @@ import {
   InputBase,
   IconButton,
   Divider,
-  Hidden
+  Hidden,
+  Snackbar
 } from "@material-ui/core";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { SOURCE, DESTINATION } from "../constants/app.constants";
-import { Autocomplete } from "@material-ui/lab";
+import { Autocomplete, Alert } from "@material-ui/lab";
 import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import FlightLandIcon from "@material-ui/icons/FlightLand";
 import AirlineSeatLegroomExtraIcon from "@material-ui/icons/AirlineSeatLegroomExtra";
@@ -22,6 +23,22 @@ import NumberSpinner from "./NumberSpinner";
 import Colors from "../constants/colors";
 import { useHistory } from "react-router-dom";
 import QueryString from "query-string";
+import * as yup from "yup";
+const SearchValidationSchema = yup.object().shape({
+  destination: yup
+    .string()
+    .nullable()
+    .required("Destination Cannot be empty"),
+  source: yup
+    .string()
+    .nullable()
+    .required("Source Cannot be empty"),
+  seats: yup
+    .number()
+    .positive()
+    .min(1)
+    .required()
+});
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,12 +64,20 @@ const useStyles = makeStyles((theme: Theme) =>
 const ReservationForm: React.FC<any> = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { values, setFieldValue, handleSubmit, setValues } = useFormik({
+  const {
+    values,
+    setFieldValue,
+    handleSubmit,
+    setValues,
+    errors,
+    submitCount
+  } = useFormik({
     initialValues: {
       source: "",
       destination: "",
       seats: 1
     },
+    validationSchema: SearchValidationSchema,
     onSubmit: values => {
       const { destination, source, seats } = values;
       localStorage.setItem("lastSearch", JSON.stringify(values));
@@ -238,6 +263,19 @@ const ReservationForm: React.FC<any> = () => {
           </div>
         </Hidden>
       </Grid>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={
+          (submitCount > 0 && errors.destination) || errors.source
+            ? true
+            : false
+        }
+        autoHideDuration={600}
+      >
+        <Alert severity="error">
+          {errors.destination ? errors.destination : errors.source}
+        </Alert>
+      </Snackbar>
     </Paper>
   );
 };
